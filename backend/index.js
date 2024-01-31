@@ -5,9 +5,12 @@ const mainRouter = require('./routes');
 
 
 const app = express();
-app.use(cors());
+
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/v1",mainRouter);
 
-app.listen(3000);
+const server = app.listen(3000,function(){
+    console.log('express server listening on port ' + server.address().port);
+     })

@@ -1,22 +1,34 @@
-import { useEffect, useState } from "react"
-import { Appbar } from "../components/Appbar"
-import { Balance } from "../components/Balance"
-import { Users } from "../components/Users"
-import axios from "axios"
+import { useEffect, useState } from "react";
+import { Appbar } from "../components/Appbar";
+import { Balance } from "../components/Balance";
+import { Users } from "../components/Users";
+import axios from "axios";
 
 export const Dashboard = () => {
-    const[balance,setBalance]=useState(0)
+  const [balance, setBalance] = useState(0);
 
-    useEffect(()=>{
-        const response = axios.get("http://localhost:3000/api/v1/account/balance")
-        setBalance(response.balance)
-    })
+  useEffect(() => {
+    async () => {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/account/balance",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response);
+      setBalance(response.data.balance);
+    };
+  }, [balance]);
 
-    return <div>
-        <Appbar />
-        <div className="m-3">
-            <Balance value={balance} />
-            <Users />
-        </div>
+  return (
+    <div>
+      <Appbar />
+      <div className="m-3">
+        <Balance value={balance} />
+        <Users />
+      </div>
     </div>
-}
+  );
+};

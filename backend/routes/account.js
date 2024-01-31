@@ -6,15 +6,19 @@ const router = express.Router();
 
 router.get('/balance',authMiddleware,async (req,res)=>{
     const account = await Account.findOne({
-        userId : req.userId
+        userId : req.userId,
     })
-    if(balance){
-        res.status(200).json({
-            balance : account.balance
-        })
+    if (!account) {
+        return res.status(404).send({ msg: 'Account not found' });
     }
 
-})
+    res.status(200).send({
+        msg : 'balance fetched successfully',
+        balance : account.balance
+    })
+    })
+
+
 
 router.post("/transfer",authMiddleware, async (req,res)=>{
     const session = await mongoose.startSession();

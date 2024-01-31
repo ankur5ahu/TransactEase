@@ -11,7 +11,7 @@ const signupSchema = zod.object({
   username: zod.string().email(),
   password: zod.string(),
   firstName: zod.string(),
-  password: zod.string(),
+  lastName: zod.string(),
 });
 
 router.post("/signup", async (req, res) => {
@@ -66,7 +66,7 @@ const signinSchema = zod.object({
   password: zod.string(),
 });
 
-router.post("/sigin", async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { success } = signinSchema.safeParse(req.body);
   if (!success) {
     return res.status(411).json({
@@ -86,17 +86,13 @@ router.post("/sigin", async (req, res) => {
       },
       JWT_SECRET
     );
-
+    
     res.json({
       token: token,
     });
 
     return;
   }
-
-  res.status(411).json({
-    message: "Error while logging in",
-  });
 });
 
 const updateSchema = zod.object({

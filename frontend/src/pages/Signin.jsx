@@ -35,12 +35,16 @@ export const Signin = () => {
           <div className="pt-4">
             <Button
               onClick={async () => {
-                const response = axios.post(
+                const userData={
+                  username: username,
+                  password: password
+                }
+                console.log(userData);
+                const response =await axios.post(
                   "http://localhost:3000/api/v1/user/signin",
-                  {
-                    username,
-                    password,
-                  });
+                  userData
+                  );
+                  localStorage.setItem("token", response.data.token);
 
                 navigate("/dashboard");
               }}
